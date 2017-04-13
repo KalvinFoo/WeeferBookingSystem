@@ -1,0 +1,171 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+
+@{
+    string status = ViewData["status"].ToString();
+}
+
+@if (status == "Draft")
+{
+    if (@ViewContext.RouteData.Values["action"].ToString() == "Create" || @ViewContext.RouteData.Values["action"].ToString() == "Edit")
+    {
+        <div class='btn-set pull-right'>
+            <a href="#" onclick="history.go(-1);" class="btn red-haze">
+                <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+            </a>
+            <button type='submit' class='btn blue-soft btnSave' name='submit' value="btnSave"><i class='fa fa-save'></i>&nbsp;Save</button>
+            <button type='submit' class='btn blue-soft btnSaveAndClose' name='submit' value="btnSaveAndClose"><i class='fa fa-save'></i>&nbsp;Save &amp; Close</button>
+        </div>
+    }
+    else if (@ViewContext.RouteData.Values["action"].ToString() == "Delete")
+    {
+        using (Html.BeginForm(@ViewContext.RouteData.Values["action"].ToString(), @ViewContext.RouteData.Values["controller"].ToString(), new { id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="btn-set pull-right">
+                <a href="#" onclick="history.go(-1);" class="btn red-haze">
+                    <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+                </a>
+                <button type='submit' value="Delete" class="btn blue-steel"><i class='fa fa-trash-o'></i>&nbsp;Delete</button>
+            </div>
+        }
+    }
+    else if (@ViewContext.RouteData.Values["action"].ToString() == "Details")
+    {
+        <div class="form-group">
+            <div class='btn-set pull-right'>
+                @using (Html.BeginForm("Index", @ViewContext.RouteData.Values["controller"].ToString(), new { id = Model.Id }, FormMethod.Post, new { role = "form", name = "frmBack" }))
+                {
+                    @Html.AntiForgeryToken()
+                }
+                <a href="#" onclick="document.getElementsByName('frmBack')[0].submit();" class="btn red-haze">
+                    <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+                </a>
+                &nbsp;
+                @if (@ViewContext.RouteData.Values["controller"].ToString() == "Categories")
+                {
+                    <a href="@Url.Action("Edit", @ViewContext.RouteData.Values["controller"].ToString(), new { id = Model.Id })" class="btn blue-soft">
+                        <i class='fa fa-pencil'></i>&nbsp; Edit
+                    </a>
+                }
+                @if (@ViewContext.RouteData.Values["controller"].ToString() == "Bookings")
+                {
+                    <a href="@Url.Action("Edit", @ViewContext.RouteData.Values["controller"].ToString(), new { id = Model.Id })" class="btn blue-soft">
+                        <i class='fa fa-pencil'></i>&nbsp; Edit
+                    </a>
+
+                    <div class="btn-group">
+                        <a class="btn green dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                            Actions&nbsp;
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                @using (Html.BeginForm("Submit", @ViewContext.RouteData.Values["controller"].ToString(), new { Id = Model.Id }, FormMethod.Post, new { role = "form", name = "frmSubmit" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <a href="#" onclick="confirmBox('submit @ViewContext.RouteData.Values["controller"].ToString()', document.getElementsByName('frmSubmit')[0])">
+                                    <i class="fa fa-check"></i> Confirm
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+}
+
+@if (status == "PendingForApproval")
+{
+    if (@ViewContext.RouteData.Values["action"].ToString() == "Create" || @ViewContext.RouteData.Values["action"].ToString() == "Edit" || @ViewContext.RouteData.Values["action"].ToString() == "Delete")
+    {
+        <div class='btn-set pull-right'>
+            <a href="#" onclick="history.go(-1);" class="btn red-haze">
+                <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+            </a>
+        </div>
+    }
+    else if (@ViewContext.RouteData.Values["action"].ToString() == "Details")
+    {
+        <div class="form-group">
+            <div class='btn-set pull-right'>
+                <a href="@Url.Action("Index")" class="btn red-haze">
+                    <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+                </a>
+                @if (@ViewContext.RouteData.Values["controller"].ToString() == "Bookings")
+                {
+                <div class="btn-group">
+                    <a class="btn green dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-expanded="false">
+                        Actions&nbsp;
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            @using (Html.BeginForm("Cancel", @ViewContext.RouteData.Values["controller"].ToString(), new { Id = Model.Id }, FormMethod.Post, new { role = "form", name = "frmCancel" }))
+                            {
+                                @Html.AntiForgeryToken()
+                            }
+                            <a href="#" onclick="confirmBox(' cancel @ViewContext.RouteData.Values["controller"].ToString()', document.getElementsByName('frmCancel')[0])">
+                                <i class="fa fa-close"></i> Cancel
+                            </a>
+                        </li>
+
+                        <li>
+                            @using (Html.BeginForm("Approve", @ViewContext.RouteData.Values["controller"].ToString(), new { Id = Model.Id }, FormMethod.Post, new { role = "form", name = "frmApproveBooking" }))
+                            {
+                                @Html.AntiForgeryToken()
+                            }
+                            <a href="#" onclick="document.getElementsByName('frmApproveBooking')[0].submit();">
+                                <i class="fa fa-thumbs-up"></i> Approve
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                }
+            </div>
+        </div>
+    }
+
+}
+
+@if (status == "Approved")
+{
+    if (@ViewContext.RouteData.Values["action"].ToString() == "Details" || @ViewContext.RouteData.Values["action"].ToString() == "Edit" || @ViewContext.RouteData.Values["action"].ToString() == "Delete")
+    {
+        <div class='btn-set pull-right'>
+            <a href="@Url.Action("Index")" class="btn red-haze">
+                <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+            </a>
+        </div>
+    }
+}
+
+@if (status == "Cancelled")
+{
+    if (@ViewContext.RouteData.Values["action"].ToString() == "Details" || @ViewContext.RouteData.Values["action"].ToString() == "Edit" || @ViewContext.RouteData.Values["action"].ToString() == "Delete")
+    {
+        <div class='btn-set pull-right'>
+            <a href="@Url.Action("Index")" class="btn red-haze">
+                <i class='fa fa-arrow-circle-left'></i>&nbsp; Back
+            </a>
+        </div>
+    }
+}
+
+@if (status == "")
+{
+    if (@ViewContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        <div class="table-actions-wrapper">
+            <span> </span>
+            <a href="@Url.Action("Create")" class="btn blue-soft">
+                <i class='fa fa-plus'>&nbsp;</i>Create New
+            </a>
+        </div>
+    }
+}
+

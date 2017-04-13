@@ -1,0 +1,77 @@
+﻿@model WeeferBookingSystem.Booking
+@using WeeferBookingSystem
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-basket font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">
+                @ViewContext.RouteData.Values["controller"]
+            </span>
+            <span class="caption-helper">@ViewContext.RouteData.Values["action"]</span>
+        </div>
+    </div>
+    @{
+        if (TempData["Note"] != null)
+        {
+            <div class="note note-info">
+                <p> @TempData["Note"]</p>
+            </div>
+        }
+    }
+    <div class="portlet-body">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_details" data-toggle="tab" aria-expanded="true"> Details </a>
+            </li>
+            @Html.Partial("~/Views/Shared/_ActionButtonPartial.cshtml", Model, new ViewDataDictionary { { "status", "Draft" } })
+        </ul>
+        <div class="tab-content">
+            @Html.AntiForgeryToken()
+            <div class="tab-pane fade active in" id="tab_details">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.DisplayFor(model => model.Description)
+
+                        @*Start Special case for Display foreign object*@
+                        <div class="form-group form-md-line-input">
+                            <label class="control-label col-md-4">
+                                Category<span class="required">*</span>
+                            </label>
+                            <div class='col-md-4'>
+                                @Html.TextBox("Category", Model.Category.Name, new { @class = "form-control bold", placeholder = Html.DisplayNameFor(model => model), @readonly = true })
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                        @*End Special case for Display foreign object*@
+
+                        <div class="form-group form-md-line-input">
+                            <label class="control-label col-md-4">
+                                Date From<span class="required">*</span>
+                            </label>
+                            <div class='col-md-4'>
+
+                                @Html.TextBox("DateFrom", Model.DateFrom.ToString(GlobalVariable.DATETIMEFORMAT), new { @class = "form-control bold", @readonly = true })
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="control-label col-md-4">
+                                Date To<span class="required">*</span>
+                            </label>
+                            <div class='col-md-4'>
+
+                                @Html.TextBox("DateTo", Model.DateTo.ToString(GlobalVariable.DATETIMEFORMAT), new { @class = "form-control bold", @readonly = true })
+                                <div class="form-control-focus"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix margin-bottom-20"> </div>
+        </div>
+    </div>
+</div>

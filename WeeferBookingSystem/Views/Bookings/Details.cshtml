@@ -1,0 +1,88 @@
+﻿@model WeeferBookingSystem.Booking
+
+@{
+    ViewBag.Title = "Details";
+}
+@section css{
+    @Styles.Render("~/bundles/metronic/styles/plugin-select2")
+    @Styles.Render("~/bundles/metronic/styles/plugin-datetimepicker")
+}
+@section jsPlugin{
+    @Scripts.Render("~/bundles/metronic/scripts/plugin-select2")
+    @Scripts.Render("~/bundles/metronic/scripts/plugin-datetimepicker")
+}
+
+<div class="portlet light">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-basket font-green-sharp"></i>
+            <span class="caption-subject font-green-sharp bold uppercase">
+                @ViewContext.RouteData.Values["controller"]
+            </span>
+            <span class="caption-helper">@ViewContext.RouteData.Values["action"]</span>
+        </div>
+    </div>
+    @{
+        if (TempData["Note"] != null)
+        {
+            <div class="note note-info">
+                <p> @TempData["Note"]</p>
+            </div>
+        }
+    }
+    <div class="portlet-body">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_details" data-toggle="tab" aria-expanded="true"> Details </a>
+            </li>
+            @Html.Partial("~/Views/Shared/_ActionButtonPartial.cshtml", Model, new ViewDataDictionary { { "status", Model.Status } })
+        </ul>
+        <div class="tab-content">
+            @Html.AntiForgeryToken()
+            <div class="tab-pane fade active in" id="tab_details">
+                <div class="form-group">
+                    @Html.HiddenFor(model => model.Id)
+                    @*Start Special case for Display foreign object*@
+                    <div class="form-group form-md-line-input">
+                        <label class="control-label col-md-4">
+                            Customer<span class="required">*</span>
+                        </label>
+                        <div class='col-md-4'>
+                            @Html.TextBox("Customer", Model.Category.Name, new { @class = "form-control bold", placeholder = Html.DisplayNameFor(model => model), @readonly = true })
+                            <div class="form-control-focus"></div>
+                        </div>
+                    </div>
+                    @*End Special case for Display foreign object*@
+
+                    <div class="form-group form-md-line-input">
+                        <label class="control-label col-md-4">
+                            Description<span class="required">*</span>
+                        </label>
+                        <div class='col-md-4'>
+                            @Html.TextBox("Description", Model.Description.ToString(), new { @class = "form-control bold", @readonly = true })
+                        </div>
+                    </div>                    
+
+                    <div class="form-group form-md-line-input">
+                        <label class="control-label col-md-4">
+                            Date From<span class="required">*</span>
+                        </label>
+                        <div class='col-md-4'>
+                            @Html.TextBox("DateFrom", Model.DateFrom.ToString(GlobalVariable.DATETIMEFORMAT), new { @class = "form-control bold", @readonly = true })
+                        </div>
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <label class="control-label col-md-4">
+                            Date To<span class="required">*</span>
+                        </label>
+                        <div class='col-md-4'>
+                            @Html.TextBox("DateTo", Model.DateTo.ToString(GlobalVariable.DATETIMEFORMAT), new { @class = "form-control bold", @readonly = true })
+                        </div>
+                    </div>
+                    @Html.DisplayFor(model => model.Status)
+                    <div class="clearfix margin-bottom-20"> </div>
+                </div>
+          </div>
+    </div>
+</div>

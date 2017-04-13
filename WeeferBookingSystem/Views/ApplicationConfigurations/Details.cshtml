@@ -1,0 +1,74 @@
+﻿@model WeeferBookingSystem.ApplicationConfiguration
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ApplicationConfiguration</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApprovalUsername)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApprovalUsername)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpUsername)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpUsername)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpFromName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpFromName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpHost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpHost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpPort)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpPort)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SmtpEnableSsl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SmtpEnableSsl)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
